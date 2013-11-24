@@ -19,7 +19,7 @@ function generate_depends {
 	deps=$1
 	for i in $next ; do
 		for canidate in $(generate_depends $i) ; do
-			if [[ ! $deps =~ $i ]] ; then
+			if [[ ! $deps =~ $i ]] && [[ -f $i ]] ; then
 				deps="$deps \\$(echo -ne '\n                            ')$i"
 			fi
 		done
@@ -55,7 +55,7 @@ exec 3<> Makefile
 # some commonly used files to generate
 echo 'CPPC?=g++'>&3
 echo 'AR?=ar'>&3
-echo "CFLAGS=$CFLAGS -Wall -Wextra -I. -g3 -ggdb -D DEBUG_LEVEL_TRACE">&3
+echo "CFLAGS=$CFLAGS -Wall -Wextra -I. -I ../glox -g3 -ggdb -D DEBUG_LEVEL_TRACE">&3
 echo "LDFLAGS=$LDFLAGS">&3
 echo 'OBJECTS='${obs[@]}>&3
 echo 'BINARY='$BINARY_NAME>&3

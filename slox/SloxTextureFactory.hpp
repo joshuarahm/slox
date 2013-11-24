@@ -12,16 +12,33 @@
 #include <string>
 #include <GL/gl.h>
 #include "slox/SloxCommon.hpp"
+#include <vector>
 
 namespace slox {
 
 /* has dependencies on OpenGL */
 class SloxTextureFactory {
 public:
+	inline SloxTextureFactory( ) {
+		m_path.push_back( "." );
+		m_path.push_back( "" );
+	}
 
-    static int readBitmapFile( const char* filename, unsigned int* texture ) ;
+	/* returns 0 if ok, 1 if warning, -1 if error */
+    int readBitmapFile( const char* filename, unsigned int* texture ) ;
 
-    static const std::string& getMessage() ;
+    const std::string& getMessage() ;
+
+	inline void addToPath( const char* path ) {
+		m_path.push_back( path );
+	}
+
+private:
+	int getFileFromPath( const char* basename, std::string& into );
+
+	std::vector<std::string> m_path;
+
+	std::string m_message;
 };
 
 }

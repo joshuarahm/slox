@@ -1,11 +1,29 @@
 #include "slox/SloxTextureFactory.hpp"
+#include <sys/stat.h>
+
+using namespace std;
 
 namespace slox {
 
-static std::string m_message;
-
 const std::string& SloxTextureFactory::getMessage() {
     return m_message;
+}
+
+int SloxTextureFactory::getFileFromPath( const char* basename, std::string& into ) {
+	struct stat st;
+	char buf[4096];
+	into.clear();
+	for( vector<string>::iterator itr = m_path.begin(); itr < m_path.end(); ++ itr ) {
+		snprintf( buf, 4096, "%s/%s", (*itr).c_str(), basename );
+		if( ! stat( buf, & st ) ) {
+			/* We found a file on the path */
+			into = buf;
+			return 0;
+		}
+	}
+
+	/* Nothing was found */
+	return 1;
 }
 
 int SloxTextureFactory::readBitmapFile( const char* filename, unsigned int* texture_r ) {
@@ -14,8 +32,14 @@ int SloxTextureFactory::readBitmapFile( const char* filename, unsigned int* text
     SDL_Surface* surface;
     int nOfColors;
     GLenum texture_format;
+	std::string realpath;
 
-    if ( (surface = SDL_LoadBMP( filename )) ) { 
+	if( getFileFromPath( filename, realpath ) ) {
+		m_message = string("File ") + filename + " does not exist on the path!";
+		return -1;
+	}
+
+    if ( (surface = SDL_LoadBMP( realpath.c_str() )) ) { 
     
 	    // Check that the image's width is a power of 2
 	    if ( (surface->w & (surface->w - 1)) != 0 ) {

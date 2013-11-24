@@ -6,6 +6,12 @@ namespace slox {
 
 void SloxRawEventHandler::onEvent( const SDL_Event& event ) {
 	switch( event.type ) {
+	case SDL_VIDEORESIZE:
+		for( vector<SloxResizeListener*>::iterator itr = resizeListeners.begin();
+			itr != resizeListeners.end(); ++ itr ) {
+			(*itr)->onResize( event.resize );
+		}
+		break;
 	case SDL_KEYDOWN:
 		for( vector<SloxKeyListener*>::iterator itr = keyListeners.begin();
 			itr != keyListeners.end(); ++ itr ) {
@@ -25,6 +31,12 @@ void SloxRawEventHandler::onEvent( const SDL_Event& event ) {
 			itr != quitListeners.end(); ++ itr ) {
 			(*itr)->onQuit( event.quit );
 		}
+	case SDL_MOUSEMOTION:
+		for( vector<SloxMouseMotionListener*>::iterator itr = mouseMotionListeners.begin();
+			itr != mouseMotionListeners.end(); ++ itr ) {
+			(*itr)->onMouseMoved( event.motion );
+		}
+		
 	}
 }
 

@@ -17,6 +17,8 @@
 
 #include "slox/events/SloxKeyListener.hpp"
 #include "slox/events/SloxQuitListener.hpp"
+#include "slox/events/SloxResizeListener.hpp"
+#include "slox/events/SloxMouseMotionListener.hpp"
 
 namespace slox {
 
@@ -32,10 +34,20 @@ public:
 	inline void addQuitListener( SloxQuitListener* listener ) {
 		quitListeners.push_back( listener );
 	}
+
+	inline void addResizeListener( SloxResizeListener* listener ) {
+		resizeListeners.push_back( listener );
+	}
+
+	inline void addMouseMotionListener( SloxMouseMotionListener* listener ) {
+		mouseMotionListeners.push_back( listener );
+	}
 	
 private:
 	std::vector<SloxKeyListener*> keyListeners;
 	std::vector<SloxQuitListener*> quitListeners;
+	std::vector<SloxResizeListener*> resizeListeners;
+	std::vector<SloxMouseMotionListener*> mouseMotionListeners;
 	
 	// TODO: more to add
 };
