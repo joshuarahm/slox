@@ -254,7 +254,7 @@ SloxModelObject* SloxObjectLoader::loadObjectFromStream( istream& input ) {
                         if ( Kt > tex_points.size() ) throw "Texture out of range!";
 
                         float arr[4];
-                        cout << "face (" << Kv << ", " << Kt << ", " << Kn  << ")" << endl;
+                        // cout << "face (" << Kv << ", " << Kt << ", " << Kn  << ")" << endl;
                         if ( Kt ) {
                             arr[0] = tex_points[Kt-1].first;
                             arr[1] = tex_points[Kt-1].second;

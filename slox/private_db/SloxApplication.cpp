@@ -1,11 +1,13 @@
 #include "slox/SloxApplication.hpp"
 
 #include <cstdio>
+#include <cstdlib>
 
 namespace slox {
 
 void SloxApplication::run( int argc, char** argv ) {
     SDL_Event event;
+	memset( & event, 0, sizeof( event ) );
     bool run = true;
     
     /* Initialize the application */

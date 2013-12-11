@@ -27,13 +27,14 @@ int SloxTextureFactory::getFileFromPath( const char* basename, std::string& into
 }
 
 int SloxTextureFactory::readImageFile( const char* filename, unsigned int* texture_r ) {
-    int ret ;
+    int ret = 0 ;
     unsigned int texture ;
     SDL_Surface* surface ;
     int nOfColors ;
     GLenum texture_format ;
     std::string realpath ;
 
+	*texture_r = 0;
     if( getFileFromPath( filename, realpath ) ) {
         m_message = string( "File ") + filename + " does not exist on the path!" ;
         return -1 ;
@@ -65,7 +66,7 @@ int SloxTextureFactory::readImageFile( const char* filename, unsigned int* textu
                         texture_format = GL_BGR;
         } else {
                 m_message = "warning: image not truecolor\n";
-                // this error should not go unhandled
+				ret = 1;
         }
     
 	    // Have OpenGL generate a texture object handle for us
@@ -171,7 +172,7 @@ int SloxTextureFactory::readBitmapFile( const char* filename, unsigned int* text
     }
 
     *texture_r = texture;
-    return ret;
+    return 0;
 }
 
 }
