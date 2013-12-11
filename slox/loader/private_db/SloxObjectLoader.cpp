@@ -121,7 +121,7 @@ void setMaterial( const char* name ) {
     const SloxObjectMaterial& material = materials[ name ];
     float fvec[4];
     material.getKa().toVector( fvec, 4 );
-    cout << "Material KA: " << material.getKa().toString() << endl;
+    // cout << "Material KA: " << material.getKa().toString() << endl;
     glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT  ,fvec);
     material.getKd().toVector( fvec, 4 );
     glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE  ,fvec);
@@ -130,7 +130,7 @@ void setMaterial( const char* name ) {
     fvec[0] = material.getNs();
     glMaterialfv(GL_FRONT_AND_BACK,GL_SHININESS, &fvec[0]);
 
-    cout << "Reading Texture with id of: " << material.getTexture().getId() << endl;
+    // cout << "Reading Texture with id of: " << material.getTexture().getId() << endl;
     if( material.getTexture().getId() > 0 ) {
         glEnable( GL_TEXTURE_2D );
         material.getTexture().bind();
@@ -192,7 +192,7 @@ void SloxObjectLoader::loadMaterial( const char* file ) {
                 throw "Unable to open texture file!";
             }
 			GloxTexture tmp( tex );
-            cout << "Crated texture with id of: " << tmp.getId() << endl;
+            // cout << "Crated texture with id of: " << tmp.getId() << endl;
             material->setTexture( tmp );
         }
     }
