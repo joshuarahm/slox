@@ -172,7 +172,7 @@ int SloxTextureFactory::readBitmapFile( const char* filename, unsigned int* text
     }
 
     *texture_r = texture;
-    return 0;
+    return ret;
 }
 
 }
