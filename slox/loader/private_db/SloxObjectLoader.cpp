@@ -121,6 +121,7 @@ void setMaterial( const char* name ) {
     const SloxObjectMaterial& material = materials[ name ];
     float fvec[4];
     material.getKa().toVector( fvec, 4 );
+    cout << "Material KA: " << material.getKa().toString() << endl;
     glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT  ,fvec);
     material.getKd().toVector( fvec, 4 );
     glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE  ,fvec);
@@ -129,11 +130,12 @@ void setMaterial( const char* name ) {
     fvec[0] = material.getNs();
     glMaterialfv(GL_FRONT_AND_BACK,GL_SHININESS, &fvec[0]);
 
+    cout << "Reading Texture with id of: " << material.getTexture().getId() << endl;
     if( material.getTexture().getId() > 0 ) {
         glEnable( GL_TEXTURE_2D );
         material.getTexture().bind();
     } else {
-        glDisable( GL_TEXTURE_2D );
+     glDisable( GL_TEXTURE_2D );
     }
 }
 
@@ -178,12 +180,19 @@ void SloxObjectLoader::loadMaterial( const char* file ) {
             linestream >> word;
 			unsigned int tex;
 			int ret;
-            ret = m_texture_factory->readBitmapFile( word.c_str(), &tex );
+
+            if ( word[0] == '/' ) {
+                cerr << "Warning: absolute path being used for texture!" << endl ;
+                exit( 1 );
+            }
+
+            ret = m_texture_factory->readImageFile( word.c_str(), &tex );
             if( ret < 0 ) {
                 cerr << "Can't read texture: " << m_texture_factory->getMessage() << endl;
                 throw "Unable to open texture file!";
             }
 			GloxTexture tmp( tex );
+            cout << "Crated texture with id of: " << tmp.getId() << endl;
             material->setTexture( tmp );
         }
     }

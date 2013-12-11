@@ -14,6 +14,8 @@
 #include "slox/SloxCommon.hpp"
 #include <vector>
 
+#include <SDL/SDL_image.h>
+
 namespace slox {
 
 /* has dependencies on OpenGL */
@@ -26,6 +28,8 @@ public:
 
 	/* returns 0 if ok, 1 if warning, -1 if error */
     int readBitmapFile( const char* filename, unsigned int* texture ) ;
+
+    int readImageFile( const char* filename, unsigned int* texture ) ;
 
     const std::string& getMessage() ;
 

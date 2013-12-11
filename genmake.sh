@@ -55,7 +55,8 @@ exec 3<> Makefile
 # some commonly used files to generate
 echo 'CPPC?=g++'>&3
 echo 'AR?=ar'>&3
-echo "CFLAGS=$CFLAGS -Wall -Wextra -I. -I ../glox -g3 -ggdb -D DEBUG_LEVEL_TRACE">&3
+echo 'OPTFLAGS?=-g3 -ggdb'>&3
+echo "CFLAGS=$CFLAGS -Wall -Wextra -I. "'$(OPTFLAGS)'" -D DEBUG_LEVEL_TRACE -Islox -I../glox">&3
 echo "LDFLAGS=$LDFLAGS">&3
 echo 'OBJECTS='${obs[@]}>&3
 echo 'BINARY='$BINARY_NAME>&3
